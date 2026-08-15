@@ -3,9 +3,9 @@ package db
 import (
 	"fmt"
 
-	"github.com/hecc-blot/hecc-blot-core/contract/db"
-	"github.com/hecc-blot/hecc-blot-core/contract/log"
-	dbConf "github.com/hecc-blot/hecc-blot-core/entity/config/db"
+	dbContract "github.com/hecc-blot/hecc-blot-db/contract"
+	"github.com/hecc-blot/hecc-blot-log/contract"
+	dbConf "github.com/hecc-blot/hecc-blot-db/config"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -15,7 +15,7 @@ type PostgresSvc struct {
 	BaseDbSvc
 }
 
-func newPostgresSvc(config *dbConf.PostgresConfig, logger log.ILog) (db.IDb, func(), error) {
+func newPostgresSvc(config *dbConf.PostgresConfig, logger log.ILog) (dbContract.IDb, func(), error) {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable connect_timeout=%d",
 		config.Ip,

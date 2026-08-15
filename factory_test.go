@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/hecc-blot/hecc-blot-core/entity/config/db"
-	logConf "github.com/hecc-blot/hecc-blot-core/entity/config/log"
+	"github.com/hecc-blot/hecc-blot-db/config"
+	logConf "github.com/hecc-blot/hecc-blot-log/config"
 	dbEnum "github.com/hecc-blot/hecc-blot-core/enum/db"
 	"github.com/hecc-blot/hecc-blot-log"
 

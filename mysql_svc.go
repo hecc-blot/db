@@ -3,9 +3,9 @@ package db
 import (
 	"fmt"
 
-	"github.com/hecc-blot/hecc-blot-core/contract/db"
-	"github.com/hecc-blot/hecc-blot-core/contract/log"
-	dbConf "github.com/hecc-blot/hecc-blot-core/entity/config/db"
+	dbContract "github.com/hecc-blot/hecc-blot-db/contract"
+	"github.com/hecc-blot/hecc-blot-log/contract"
+	dbConf "github.com/hecc-blot/hecc-blot-db/config"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -15,7 +15,7 @@ type MysqlSvc struct {
 	BaseDbSvc
 }
 
-func newMysqlSvc(config *dbConf.MysqlConfig, logger log.ILog) (db.IDb, func(), error) {
+func newMysqlSvc(config *dbConf.MysqlConfig, logger log.ILog) (dbContract.IDb, func(), error) {
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&timeout=%ds",
 		config.Username,
