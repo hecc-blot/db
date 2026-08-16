@@ -7,7 +7,8 @@ import (
 	dbContract "github.com/hecc-blot/hecc-blot-db/contract"
 	"github.com/hecc-blot/hecc-blot-log/contract"
 	dbConf "github.com/hecc-blot/hecc-blot-db/config"
-	dbEnum "github.com/hecc-blot/hecc-blot-core/enum/db"
+	dbEnum "github.com/hecc-blot/hecc-blot-db/enum/db"
+	"github.com/hecc-blot/hecc-blot-core/util"
 
 	"gorm.io/gorm"
 )
@@ -29,6 +30,9 @@ func (f *Factory) Build(ctx context.Context, v ...dbEnum.Value) dbContract.IDb {
 	}
 
 	// 通过 GetInstance() 获取 GORM 实例，创建独立副本
+	// 先提取真实 context（*gin.Context → Request.Context()），否则 GORM otel 插件
+	// 读不到父 span，SQL 会变成独立 trace
+	ctx = util.ExtractContext(ctx)
 	clone := &BaseDbSvc{
 		ctx: ctx,
 		db:  dbSvc.GetInstance().(*gorm.DB).WithContext(ctx),
