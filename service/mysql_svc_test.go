@@ -1,10 +1,10 @@
-package db
+package service
 
 import (
 	"context"
 	"testing"
 
-	"github.com/hecc-blot/log"
+	log "github.com/hecc-blot/framework/service/log"
 
 	"github.com/stretchr/testify/assert"
 )

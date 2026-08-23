@@ -3,8 +3,8 @@ package mocks
 import (
 	"context"
 
-	dbEnum "github.com/hecc-blot/db/enum/db"
 	dbContract "github.com/hecc-blot/db/contract"
+	dbEnum "github.com/hecc-blot/db/enum/db"
 )
 
 // MockDbFactory 是 IDbFactory 接口的 mock 实现，可通过 BuildFn 定制返回的 IDb。

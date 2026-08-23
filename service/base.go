@@ -1,4 +1,4 @@
-package db
+package service
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 	"time"
 
 	dbContract "github.com/hecc-blot/db/contract"
-	"github.com/hecc-blot/core/util"
-	"github.com/hecc-blot/log/contract"
+	"github.com/hecc-blot/framework/contract/log"
+	"github.com/hecc-blot/framework/util"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"

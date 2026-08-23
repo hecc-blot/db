@@ -1,15 +1,15 @@
-package db
+package service
 
 import (
 	"context"
 	"net/http"
 	"testing"
 
-	dbContract "github.com/hecc-blot/db/contract"
 	dbConf "github.com/hecc-blot/db/config"
+	dbContract "github.com/hecc-blot/db/contract"
 	dbEnum "github.com/hecc-blot/db/enum/db"
-	logConf "github.com/hecc-blot/log/config"
-	"github.com/hecc-blot/log"
+	logConf "github.com/hecc-blot/framework/config/log"
+	log "github.com/hecc-blot/framework/service/log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -49,18 +49,13 @@ var postgresConfig = dbConf.PostgresConfig{
 	SlowThreshold:   200,
 }
 
-var localConf = &logConf.Config{
-	Local: logConf.LocalConfig{
-		Enable:     true,
-		RootDir:    "./runtime/logs",
-		MaxSize:    1,
-		MaxBackups: 3,
-		MaxAge:     7,
-		Compress:   false,
-	},
-	Sls: logConf.SlsConfig{
-		Enable: false,
-	},
+var localConf = &logConf.LocalConfig{
+	Enable:     true,
+	RootDir:    "./runtime/logs",
+	MaxSize:    1,
+	MaxBackups: 3,
+	MaxAge:     7,
+	Compress:   false,
 }
 
 // Account 定义model
