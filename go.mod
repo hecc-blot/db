@@ -3,8 +3,6 @@ module github.com/hecc-blot/hecc-blot-db
 go 1.26.1
 
 require (
-	github.com/hecc-blot/hecc-blot-core v0.0.0
-	github.com/hecc-blot/hecc-blot-log v0.0.0
 	github.com/gin-gonic/gin v1.12.0
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/zap v1.28.0
@@ -45,6 +43,8 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/go-version v1.6.0 // indirect
+	github.com/hecc-blot/hecc-blot-core v0.1.0
+	github.com/hecc-blot/hecc-blot-log v0.1.0
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/pgx/v5 v5.10.0 // indirect
@@ -86,9 +86,4 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/clickhouse v0.7.0 // indirect
-)
-
-replace (
-	github.com/hecc-blot/hecc-blot-core => ../core
-	github.com/hecc-blot/hecc-blot-log => ../log
 )
