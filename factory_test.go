@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"testing"
 
-	dbContract "github.com/hecc-blot/hecc-blot-db/contract"
-	dbConf "github.com/hecc-blot/hecc-blot-db/config"
-	dbEnum "github.com/hecc-blot/hecc-blot-db/enum/db"
-	logConf "github.com/hecc-blot/hecc-blot-log/config"
-	"github.com/hecc-blot/hecc-blot-log"
+	dbContract "github.com/hecc-blot/db/contract"
+	dbConf "github.com/hecc-blot/db/config"
+	dbEnum "github.com/hecc-blot/db/enum/db"
+	logConf "github.com/hecc-blot/log/config"
+	"github.com/hecc-blot/log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"

@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"time"
 
-	dbContract "github.com/hecc-blot/hecc-blot-db/contract"
-	"github.com/hecc-blot/hecc-blot-core/util"
-	"github.com/hecc-blot/hecc-blot-log/contract"
+	dbContract "github.com/hecc-blot/db/contract"
+	"github.com/hecc-blot/core/util"
+	"github.com/hecc-blot/log/contract"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"

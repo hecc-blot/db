@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	dbContract "github.com/hecc-blot/hecc-blot-db/contract"
-	"github.com/hecc-blot/hecc-blot-log/contract"
-	dbConf "github.com/hecc-blot/hecc-blot-db/config"
-	dbEnum "github.com/hecc-blot/hecc-blot-db/enum/db"
-	"github.com/hecc-blot/hecc-blot-core/util"
+	dbContract "github.com/hecc-blot/db/contract"
+	"github.com/hecc-blot/log/contract"
+	dbConf "github.com/hecc-blot/db/config"
+	dbEnum "github.com/hecc-blot/db/enum/db"
+	"github.com/hecc-blot/core/util"
 
 	"gorm.io/gorm"
 )

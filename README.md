@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-go get github.com/hecc-blot/hecc-blot-db
+go get github.com/hecc-blot/db
 ```
 
 ## 说明

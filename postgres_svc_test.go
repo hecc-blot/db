@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/hecc-blot/hecc-blot-log"
+	"github.com/hecc-blot/log"
 
 	"github.com/stretchr/testify/assert"
 )
