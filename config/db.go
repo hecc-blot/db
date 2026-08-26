@@ -1,8 +1,9 @@
 package config
 
 type Config struct {
-	Mysql    MysqlConfig
-	Postgres PostgresConfig
+	Default  string          `mapstructure:"default"` // 默认库 "mysql"/"postgres"，多库时必填
+	Mysql    *MysqlConfig    `mapstructure:"mysql"`   // nil = 未启用
+	Postgres *PostgresConfig `mapstructure:"postgres"`
 }
 
 type MysqlConfig struct {

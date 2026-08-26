@@ -19,8 +19,9 @@ import (
 )
 
 var dbConfig = &dbConf.Config{
-	Mysql:    mysqlConf,
-	Postgres: postgresConfig,
+	Default:  "mysql",
+	Mysql:    &mysqlConf,
+	Postgres: &postgresConfig,
 }
 
 var mysqlConf = dbConf.MysqlConfig{
@@ -173,5 +174,43 @@ func TestFactory(t *testing.T) {
 		assert.Equal(t, "mysql", data.AccountName)
 
 		t.Logf("data: %+v", data)
+	})
+}
+
+// TestResolveDefault 验证默认库 fail-fast 规则（纯函数，无需数据库连接）
+func TestResolveDefault(t *testing.T) {
+	t.Run("未配置任何库", func(t *testing.T) {
+		_, err := resolveDefault(nil, "")
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "未配置任何数据库")
+	})
+
+	t.Run("单库自动默认", func(t *testing.T) {
+		d, err := resolveDefault([]dbEnum.Value{dbEnum.Mysql}, "")
+		assert.NoError(t, err)
+		assert.Equal(t, dbEnum.Mysql, d)
+	})
+
+	t.Run("多库未设置默认库", func(t *testing.T) {
+		_, err := resolveDefault([]dbEnum.Value{dbEnum.Mysql, dbEnum.Postgres}, "")
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "必须设置 default")
+	})
+
+	t.Run("多库设置有效默认库", func(t *testing.T) {
+		d, err := resolveDefault([]dbEnum.Value{dbEnum.Mysql, dbEnum.Postgres}, "postgres")
+		assert.NoError(t, err)
+		assert.Equal(t, dbEnum.Postgres, d)
+	})
+
+	t.Run("多库设置无效默认库", func(t *testing.T) {
+		_, err := resolveDefault([]dbEnum.Value{dbEnum.Mysql, dbEnum.Postgres}, "oracle")
+		assert.Error(t, err)
+	})
+
+	t.Run("多库设置未配置的默认库", func(t *testing.T) {
+		_, err := resolveDefault([]dbEnum.Value{dbEnum.Mysql}, "postgres")
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "未配置")
 	})
 }

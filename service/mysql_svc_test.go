@@ -14,7 +14,7 @@ func TestMysqlSvc(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, logSvc)
 
-	mysqlSvc, clearUp, err := newMysqlSvc(&mysqlConf, logSvc)
+	mysqlSvc, clearUp, err := NewMysql(&mysqlConf, logSvc)
 	assert.NoError(t, err)
 	assert.NotNil(t, mysqlSvc)
 
@@ -124,7 +124,7 @@ func TestMysqlSvc(t *testing.T) {
 	})
 
 	t.Run("transaction", func(t *testing.T) {
-		mysqlSvc.WithContext(context.Background())
+		mysqlSvc = mysqlSvc.WithContext(context.Background())
 		tx := mysqlSvc.Begin()
 		newAccount := Account{
 			AccountName: "test-transaction",
@@ -143,7 +143,7 @@ func TestMysqlSvc(t *testing.T) {
 	})
 
 	t.Run("transaction with rollback", func(t *testing.T) {
-		mysqlSvc.WithContext(context.Background())
+		mysqlSvc = mysqlSvc.WithContext(context.Background())
 		tx := mysqlSvc.Begin()
 		newAccount := Account{
 			AccountName: "test-transaction-rollback",

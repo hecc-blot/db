@@ -15,7 +15,8 @@ type PostgresSvc struct {
 	BaseDbSvc
 }
 
-func newPostgresSvc(config *dbConf.PostgresConfig, logger log.ILog) (dbContract.IDb, func(), error) {
+// NewPostgres 创建单个 PostgreSQL 数据库实例（单库用户直接注入 IDb，无需工厂）
+func NewPostgres(config *dbConf.PostgresConfig, logger log.ILog) (dbContract.IDb, func(), error) {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable connect_timeout=%d",
 		config.Ip,

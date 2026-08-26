@@ -14,7 +14,7 @@ func TestPostgresSvc(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, logSvc)
 
-	postgresSvc, clearUp, err := newPostgresSvc(&postgresConfig, logSvc)
+	postgresSvc, clearUp, err := NewPostgres(&postgresConfig, logSvc)
 	assert.NoError(t, err)
 	assert.NotNil(t, postgresSvc)
 
@@ -124,7 +124,7 @@ func TestPostgresSvc(t *testing.T) {
 	})
 
 	t.Run("transaction", func(t *testing.T) {
-		postgresSvc.WithContext(context.Background())
+		postgresSvc = postgresSvc.WithContext(context.Background())
 		tx := postgresSvc.Begin()
 		newAccount := Account{
 			AccountName: "test-transaction",
@@ -143,7 +143,7 @@ func TestPostgresSvc(t *testing.T) {
 	})
 
 	t.Run("transaction with rollback", func(t *testing.T) {
-		postgresSvc.WithContext(context.Background())
+		postgresSvc = postgresSvc.WithContext(context.Background())
 		tx := postgresSvc.Begin()
 		newAccount := Account{
 			AccountName: "test-transaction-rollback",

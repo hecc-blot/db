@@ -21,7 +21,12 @@ type IDbFactory interface {
     SetDefault(t dbEnum.Value)
 }
 
+type IDbBase interface {
+    GetInstance() any
+}
+
 type IDb interface {
+    IDbBase
     Add(entry IDbModel) error
     Remove(entry IDbModel) error
     Query(entry IDbModel) IDb
@@ -34,21 +39,51 @@ type IDb interface {
     Where(args ...interface{}) IDb
     Take(dst interface{}) error
     Find(dst interface{}) error
-    WithContext(ctx context.Context)
+    WithContext(ctx context.Context) IDb
     Begin() IDb
     Commit() error
     Rollback()
-    GetInstance() any
 }
 ```
 
 ## 初始化
+
+**单库（推荐）：直接构造、注入 `IDb`，无需工厂。**
 
 ```go
 import (
     db "github.com/hecc-blot/db/service"
 )
 
+mysqlDb, clearUp, err := db.NewMysql(&config.Db.Mysql, logSvc)
+if err != nil {
+    panic(err)
+}
+defer clearUp()
+
+container.Set(new(dbContract.IDb), mysqlDb)
+```
+
+业务方直接注入 `IDb`，每个请求用 `WithContext(ctx)` 取副本：
+
+```go
+type ListApi struct {
+    Db dbContract.IDb `inject:""`
+}
+
+func (a ListApi) Call(ctx *gin.Context) (interface{}, iCoreError.IError) {
+    db := a.Db.WithContext(ctx)   // 返回绑定请求上下文的副本，并发安全
+    data := new(make([]AccountModel, 0))
+    if err := db.Where("id >= ?", 1).Find(data); err != nil {
+        return nil, errorSvc.NewError(response.Fail, err)
+    }
+    return data, nil
+}
+```
+
+**多库：用工厂按需切换（详见下文「多数据库切换」）。**
+
+```go
 dbFactory, clearUp, err := db.NewDbFactory(&config.Db, logSvc)
 if err != nil {
     panic(err)
@@ -156,20 +191,26 @@ func (a AddApi) Call(ctx *gin.Context) (interface{}, iCoreError.IError) {
 
 ## 多数据库切换
 
-同时配置 MySQL 和 PostgreSQL（按 IP 是否为空判断是否启用）：
+同时配置 MySQL 和 PostgreSQL（按配置段是否存在判断启用）。**默认库在 `NewDbFactory` 时一次性确定**：
+
+| 配置情况 | 行为 |
+|---|---|
+| 仅配置 1 个库 | 自动作为默认库 |
+| 配置多个库 | 必须设置 `default`，否则 `NewDbFactory` 返回错误 |
+| 未配置任何库 | `NewDbFactory` 返回错误 |
 
 ```go
 dbFactory, clearUp, err := db.NewDbFactory(&config.Db, logSvc)
 
-// 设置默认数据库（不设置默认 MySQL）
-dbFactory.SetDefault(dbEnum.Postgres)
-
-// 不带参数使用默认数据库
+// 不带参数使用默认数据库（由 config.default 或单库自动决定）
 db := dbFactory.Build(ctx)
 
 // 运行时指定数据库类型
 mysqlDB := dbFactory.Build(ctx, dbEnum.Mysql)
 pgDB := dbFactory.Build(ctx, dbEnum.Postgres)
+
+// 运行时切换默认库（可选）
+dbFactory.SetDefault(dbEnum.Postgres)
 ```
 
 ## SQL 链路追踪
@@ -221,10 +262,11 @@ func (a ListApi) Call(ctx *gin.Context) (interface{}, iCoreError.IError) {
 
 ```yaml
 db:
+  default: mysql             # 默认库 "mysql"/"postgres"，仅配置一个库时可不填
   mysql:
     username: root
     password: "123456"
-    ip: 127.0.0.1            # 为空则跳过该数据库
+    ip: 127.0.0.1            # 配置了该段即启用，缺省整段则不启用
     port: 3306
     db_name: test
     max_idle_conn: 10        # 最大空闲连接数

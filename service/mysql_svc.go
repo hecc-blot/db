@@ -15,7 +15,8 @@ type MysqlSvc struct {
 	BaseDbSvc
 }
 
-func newMysqlSvc(config *dbConf.MysqlConfig, logger log.ILog) (dbContract.IDb, func(), error) {
+// NewMysql 创建单个 MySQL 数据库实例（单库用户直接注入 IDb，无需工厂）
+func NewMysql(config *dbConf.MysqlConfig, logger log.ILog) (dbContract.IDb, func(), error) {
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&timeout=%ds",
 		config.Username,

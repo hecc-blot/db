@@ -5,6 +5,7 @@ import (
 )
 
 type IDb interface {
+	IDbBase
 	Add(entry IDbModel) error
 	Count() (int64, error)
 	Find(dst interface{}) error
@@ -17,9 +18,8 @@ type IDb interface {
 	Select(args ...interface{}) IDb
 	Take(dst interface{}) error
 	Where(args ...interface{}) IDb
-	WithContext(ctx context.Context)
+	WithContext(ctx context.Context) IDb
 	Begin() IDb
 	Commit() error
 	Rollback()
-	GetInstance() any
 }

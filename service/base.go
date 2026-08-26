@@ -127,11 +127,13 @@ func (b *BaseDbSvc) Find(dst interface{}) error {
 	return b.db.Find(dst).Error
 }
 
-// WithContext 设置上下文
-func (b *BaseDbSvc) WithContext(ctx context.Context) {
+// WithContext 设置上下文 — 返回副本，不修改原实例，保证并发安全（作为链式调用起点）
+func (b *BaseDbSvc) WithContext(ctx context.Context) dbContract.IDb {
 	ctx = util.ExtractContext(ctx)
-	b.ctx = ctx
-	b.db = b.db.WithContext(ctx)
+	return &BaseDbSvc{
+		ctx: ctx,
+		db:  b.db.WithContext(ctx),
+	}
 }
 
 // GetInstance 返回底层 GORM 实例，供 Factory 创建副本或执行高级查询
