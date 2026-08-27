@@ -8,7 +8,7 @@ import (
 	dbConf "github.com/hecc-blot/db/config"
 	dbContract "github.com/hecc-blot/db/contract"
 	dbEnum "github.com/hecc-blot/db/enum/db"
-	"github.com/hecc-blot/framework/contract/log"
+	"github.com/hecc-blot/core/contract/log"
 )
 
 type Factory struct {

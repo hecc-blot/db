@@ -6,7 +6,7 @@ import (
 	"time"
 
 	dbContract "github.com/hecc-blot/db/contract"
-	"github.com/hecc-blot/framework/contract/log"
+	"github.com/hecc-blot/core/contract/log"
 	"github.com/hecc-blot/framework/util"
 
 	"go.uber.org/zap"

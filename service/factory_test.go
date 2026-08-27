@@ -8,8 +8,8 @@ import (
 	dbConf "github.com/hecc-blot/db/config"
 	dbContract "github.com/hecc-blot/db/contract"
 	dbEnum "github.com/hecc-blot/db/enum/db"
-	logConf "github.com/hecc-blot/framework/config/log"
-	log "github.com/hecc-blot/framework/service/log"
+	logConf "github.com/hecc-blot/core/config/log"
+	log "github.com/hecc-blot/core/service/log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"

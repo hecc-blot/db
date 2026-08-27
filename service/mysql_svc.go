@@ -5,7 +5,7 @@ import (
 
 	dbConf "github.com/hecc-blot/db/config"
 	dbContract "github.com/hecc-blot/db/contract"
-	"github.com/hecc-blot/framework/contract/log"
+	"github.com/hecc-blot/core/contract/log"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
