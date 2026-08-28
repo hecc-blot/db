@@ -51,7 +51,6 @@ var postgresConfig = dbConf.PostgresConfig{
 }
 
 var localConf = &logConf.LocalConfig{
-	Enable:     true,
 	RootDir:    "./runtime/logs",
 	MaxSize:    1,
 	MaxBackups: 3,
